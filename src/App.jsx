@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MapPin, Calendar, ChevronRight, ShieldCheck, Ticket, CheckCircle, X, Mic, Zap, Trophy, CreditCard, QrCode, Smartphone } from 'lucide-react';
+import { MapPin, Calendar, ChevronRight, ShieldCheck, Ticket, CheckCircle, X, Mic, Zap, Trophy, CreditCard, QrCode, Smartphone, Menu } from 'lucide-react';
 
 const fadeUpVariant = {
   hidden: { opacity: 0, y: 30 },
@@ -137,7 +137,7 @@ const CheckoutModal = ({ isOpen, onClose, ticket }) => {
                 Metode Pembayaran
               </h3>
               
-              <div className="grid grid-cols-2 gap-3 mb-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
                 {['QRIS', 'BCA Virtual Account', 'Mandiri VA', 'Kartu Kredit'].map((method) => (
                   <button 
                     key={method}
@@ -203,6 +203,7 @@ const CheckoutModal = ({ isOpen, onClose, ticket }) => {
 const LandingPageContent = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTicket, setSelectedTicket] = useState({ name: 'VIP RINGSIDE', price: 'Rp 500.000' });
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const openModal = (ticket) => {
     setSelectedTicket(ticket);
@@ -240,13 +241,42 @@ const LandingPageContent = () => {
                 </a>
               ))}
             </div>
-            <div>
+            <div className="flex items-center gap-2">
               <button onClick={() => openModal({ name: 'VIP RINGSIDE', price: 'Rp 500.000' })} className="bg-red-600 hover:bg-red-700 text-white font-black py-2 px-3 md:py-2.5 md:px-6 rounded-sm uppercase text-[10px] md:text-sm tracking-[0.1em] md:tracking-[0.2em] transition-all duration-300 hover:shadow-[0_0_20px_rgba(220,38,38,0.6)] flex items-center gap-1 md:gap-2 border border-red-500">
                 <Ticket size={16} /> <span className="hidden sm:inline">Beli Tiket</span><span className="inline sm:hidden">Tiket</span>
+              </button>
+              <button 
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} 
+                className="md:hidden text-white p-2 hover:bg-white/10 rounded-md transition-colors"
+              >
+                {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
             </div>
           </div>
         </div>
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div 
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className="md:hidden border-t border-white/10 bg-black/95 backdrop-blur-xl overflow-hidden"
+            >
+              <div className="flex flex-col py-4 px-4 space-y-4">
+                {['Beranda', 'Fighters', 'Jadwal', 'Venue'].map(item => (
+                  <a 
+                    key={item} 
+                    href={`#${item.toLowerCase()}`} 
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="text-gray-300 hover:text-white font-medium uppercase text-sm tracking-widest transition-colors flex items-center gap-2 py-2"
+                  >
+                    <ChevronRight size={16} className="text-red-600" /> {item}
+                  </a>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
 
       {/* Hero */}
@@ -384,16 +414,16 @@ const LandingPageContent = () => {
               { day: "Day 2", date: "13 DES. 2026", title: "Undercard Matches & Local Heroes", icon: Zap },
               { day: "Day 3", date: "14 DES. 2026", title: "Main Event, Live Performances & Celebrations", icon: Trophy }
             ].map((item, index) => (
-              <motion.div key={index} variants={fadeUpVariant} initial="hidden" whileInView="visible" viewport={{ once: true }} className="glass-panel p-4 md:p-8 flex flex-row items-center gap-4 md:gap-6 rounded-lg border border-white/5 relative z-10">
-                <div className="w-10 h-10 md:w-20 md:h-20 shrink-0 bg-black border border-red-900 rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(220,38,38,0.2)]">
-                  <item.icon className="text-red-600 w-4 h-4 md:w-8 md:h-8" />
+              <motion.div key={index} variants={fadeUpVariant} initial="hidden" whileInView="visible" viewport={{ once: true }} className="glass-panel p-6 md:p-8 flex flex-col md:flex-row items-center gap-4 md:gap-6 rounded-lg border border-white/5 relative z-10 text-center md:text-left">
+                <div className="w-16 h-16 md:w-20 md:h-20 shrink-0 bg-black border border-red-900 rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(220,38,38,0.2)]">
+                  <item.icon className="text-red-600 w-6 h-6 md:w-8 md:h-8" />
                 </div>
-                <div className="flex-shrink-0 w-24 md:w-36">
-                  <span className="block text-red-600 font-black font-display text-xl md:text-3xl uppercase tracking-wider">{item.day}</span>
-                  <span className="text-[9px] md:text-xs text-gray-400 font-bold uppercase tracking-[0.1em] md:tracking-[0.2em]">{item.date}</span>
+                <div className="flex-shrink-0 md:w-36">
+                  <span className="block text-red-600 font-black font-display text-2xl md:text-3xl uppercase tracking-wider">{item.day}</span>
+                  <span className="text-xs text-gray-400 font-bold uppercase tracking-[0.2em]">{item.date}</span>
                 </div>
                 <div className="flex-grow">
-                  <h4 className="text-sm md:text-2xl font-black uppercase tracking-tight md:tracking-wide text-white drop-shadow-md leading-tight">{item.title}</h4>
+                  <h4 className="text-base md:text-2xl font-black uppercase tracking-wide text-white drop-shadow-md leading-tight">{item.title}</h4>
                 </div>
               </motion.div>
             ))}
