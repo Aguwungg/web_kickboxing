@@ -539,7 +539,7 @@ const App = () => {
       {!isSimulator && (
         <button 
           onClick={() => setIsMobileSimulatorOpen(true)}
-          className="fixed bottom-6 left-6 z-[200] bg-white text-black hover:bg-gray-200 font-bold py-3 px-5 md:py-4 md:px-8 rounded-full shadow-[0_10px_40px_rgba(255,255,255,0.3)] flex items-center gap-3 transition-transform hover:scale-105 active:scale-95 text-xs md:text-sm uppercase tracking-widest border border-white/10"
+          className="fixed bottom-6 left-6 z-[200] bg-white text-black hover:bg-gray-200 font-bold py-3 px-5 md:py-4 md:px-8 rounded-full shadow-[0_10px_40px_rgba(255,255,255,0.3)] hidden md:flex items-center gap-3 transition-transform hover:scale-105 active:scale-95 text-xs md:text-sm uppercase tracking-widest border border-white/10"
         >
           <Smartphone size={20} /> <span className="hidden sm:inline">MODE HP</span><span className="inline sm:hidden">HP</span>
         </button>
