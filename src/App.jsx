@@ -211,7 +211,7 @@ const LandingPageContent = () => {
   };
 
   return (
-    <div className="w-full h-full relative overflow-x-hidden">
+    <div className="w-full min-h-screen relative overflow-x-hidden">
       
       {/* Global Watermarks & Gradients */}
       <div className="absolute inset-0 pointer-events-none flex items-center justify-center overflow-hidden z-0 select-none">
